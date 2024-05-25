@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Pogoda</title>
+    <script type="text/javascript" src="aplikacja/static/jshtml.js"></script>
+    <link rel="stylesheet" href="aplikacja/static/styl.css">
+    <link href='http://fonts.googleapis.com/css?family=Alata&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+</head>
+<body>
+    <div class="container">
+        <h1>Sprawdź pogodę</h1>
+        <div class="input-box">
+            <input type="text" id="miasto" placeholder="Wpisz miasto..."><br><br>
+            <button type="button" onclick="fetchWeather()">Sprawdź  <img src="aplikacja/static/lupa.svg" height="18" alt="Lupa"></button>
+        </div>
+        <div id="tabela">
+            <h2 id="wmiasto"></h2>
+            <h4 id="data"></h4>
+            <h4 id="godzina"></h4>
+            <div id="weather-details">
+                <p id="temperature"></p>
+                <p id="humidity"></p>
+                <p id="description"></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
