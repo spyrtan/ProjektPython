@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Pogoda</title>
-    <script type="text/javascript" src="aplikacja/static/jshtml.js"></script>
+    <script type="text/javascript" src="{% static 'jshtml.js' %}"></script>
     <link rel="stylesheet" href="{% static 'styl.css' %}">
     <link href='http://fonts.googleapis.com/css?family=Alata&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
 </head>
@@ -13,7 +13,7 @@
         <h1>Sprawdź pogodę</h1>
         <div class="input-box">
             <input type="text" id="miasto" placeholder="Wpisz miasto..."><br><br>
-            <button type="button" onclick="fetchWeather()">Sprawdź  <img src="aplikacja/static/lupa.svg" height="18" alt="Lupa"></button>
+            <button type="button" onclick="fetchWeather()">Sprawdź  <img src="{% static 'lupa.svg' %}" height="18" alt="Lupa"></button>
         </div>
         <div id="tabela">
             <h2 id="wmiasto"></h2>
