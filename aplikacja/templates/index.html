@@ -11,14 +11,32 @@
 <body>
     <div class="container">
         <h1>Sprawdź pogodę</h1>
+        <form method="post" id="formularz">
+            {% csrf_token %}
         <div class="input-box">
-            <input type="text" id="miasto" placeholder="Wpisz miasto..."><br><br>
-            <button type="button" onclick="fetchWeather()">Sprawdź  <img src="{% static 'lupa.svg' %}" height="18" alt="Lupa"></button>
+            <input type="text" id="city" name="city" placeholder="Wpisz miasto..."><br><br>
+            <button type="submit">Sprawdź  <img src="{% static 'lupa.svg' %}" height="18" alt="Lupa"></button>
         </div>
+        </form>
+        <script>
+            window.onload = function() {
+              document.getElementById('formularz').reset();
+            };
+        </script>
         <div id="tabela">
             <h2 id="wmiasto"></h2>
             <h4 id="data"></h4>
             <h4 id="godzina"></h4>
+        {% if weather_data %}
+            <h2>Aktualna pogoda w {{ weather_data.city }}:</h2>
+            <p><strong>Description:</strong> {{ weather_data.description }}</p>
+            <p><strong>Temperature:</strong> {{ weather_data.temperature }}°C</p>
+            <p><strong>Feels like:</strong> {{ weather_data.feels_like }}°C</p>
+            <p><strong>Humidity:</strong> {{ weather_data.humidity }}%</p>
+            <p><strong>Wind speed:</strong> {{ weather_data.wind_speed }} m/s</p>
+        {% elif weather_data is none %}
+            <p>Nie można pobrać danych spróbuj ponownie.</p>
+        {% endif %}
         </div>
     </div>
 </body>

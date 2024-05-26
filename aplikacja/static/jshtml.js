@@ -1,5 +1,5 @@
 function miasto() {
-    var miasto = document.getElementById("miasto").value;
+    var miasto = document.getElementById("city").value;
     document.getElementById("wmiasto").innerText = miasto;
 }
 
