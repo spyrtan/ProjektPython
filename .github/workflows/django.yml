@@ -8,7 +8,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 4
@@ -28,3 +27,16 @@ jobs:
     - name: Run Tests
       run: |
         python manage.py test
+    - name: Deploy to GitHub Pages
+      if: github.ref == 'refs/heads/main'
+      run: |
+        mkdir -p docs
+        cp -r root/aplikacja/templates/* docs/
+    - name: Commit and Push Changes
+      if: github.ref == 'refs/heads/main'
+      run: |
+        git config --global user.name 'github-actions'
+        git config --global user.email 'github-actions@github.com'
+        git add docs
+        git commit -m "Deploy to GitHub Pages"
+        git push
