@@ -1,16 +1,16 @@
 Projekt na zaliczenie przedmiotu “Wprowadzenie do programowania w języku Python” kierunek Inżynieria i Analiza Danych FS1-DI Rok 2024.
 
----
+## Sprawozdanie z implementacji widoku pogody w Django
 
-# Raport z implementacji widoku pogody w Django
+### Wprowadzenie
 
-## Wprowadzenie
+Celem niniejszego sprawozdania jest szczegółowe przedstawienie procesu implementacji widoku pogodowego w frameworku Django. Widok ten pobiera i wyświetla dane pogodowe dla wybranego miasta, korzystając z API OpenWeatherMap. Projekt składa się z dwóch głównych funkcji: `get_weather` oraz `weather_view`.
 
-Ten dokument opisuje funkcjonalność oraz działanie kodu Django, który obsługuje wyświetlanie danych pogodowych dla określonego miasta przy użyciu API OpenWeatherMap. Kod składa się z dwóch głównych funkcji: `get_weather` i `weather_view`.
+### Szczegóły Implementacji
 
-## Szczegóły Implementacji
+#### Importowanie modułów
 
-### Importowanie modułów
+Na początku zaimportowane zostały niezbędne moduły:
 
 ```python
 from django.shortcuts import render
@@ -18,30 +18,27 @@ from django.http import HttpResponse
 import requests
 ```
 
-- `render` i `HttpResponse` są importowane z modułu `django.shortcuts` oraz `django.http` odpowiednio, aby obsługiwać żądania HTTP i renderowanie szablonów HTML.
-- `requests` jest zewnętrznym modułem do wykonywania zapytań HTTP.
+- `render` oraz `HttpResponse` zostały zaimportowane z modułów `django.shortcuts` i `django.http`, aby obsługiwać żądania HTTP oraz renderowanie szablonów HTML.
+- `requests` to zewnętrzny moduł do wykonywania zapytań HTTP, który umożliwia komunikację z API.
 
-### Funkcja `get_weather`
+#### Funkcja `get_weather`
 
-Funkcja `get_weather` pobiera dane pogodowe dla określonego miasta, korzystając z API OpenWeatherMap.
+Funkcja `get_weather` odpowiada za pobieranie danych pogodowych dla wybranego miasta, korzystając z API OpenWeatherMap.
 
-#### Parametry:
-
+**Parametry:**
 - `city_name` (str): Nazwa miasta, dla którego mają zostać pobrane dane pogodowe.
 - `api_key` (str): Klucz API wymagany do autoryzacji zapytań do OpenWeatherMap.
 
-#### Logika:
-
+**Logika działania:**
 1. Tworzenie URL z parametrami miasta i klucza API.
 2. Wykonanie zapytania GET do API.
 3. Parsowanie odpowiedzi jako JSON.
 4. Sprawdzenie kodu odpowiedzi:
-    - Jeśli kod to 200 (sukces), wyciągnięcie interesujących danych z odpowiedzi.
-    - Jeśli kod to inny niż 200, zwrócenie `None`.
+   - Jeśli kod to 200 (sukces), wyciągnięcie interesujących danych z odpowiedzi.
+   - Jeśli kod to inny niż 200, zwrócenie `None`.
 5. Tworzenie i zwrócenie słownika z danymi pogodowymi.
 
-#### Kod:
-
+**Kod funkcji:**
 ```python
 def get_weather(city_name, api_key):
     url = f"http://api.openweathermap.org/data/2.5/weather?q={city_name}&appid={api_key}&units=metric"
@@ -68,20 +65,18 @@ def get_weather(city_name, api_key):
         return None
 ```
 
-### Widok `weather_view`
+#### Widok `weather_view`
 
-Widok `weather_view` obsługuje żądania HTTP i renderuje stronę HTML z danymi pogodowymi.
+Widok `weather_view` obsługuje żądania HTTP oraz renderuje stronę HTML z danymi pogodowymi.
 
-#### Logika:
-
+**Logika działania:**
 1. Inicjalizacja zmiennej `weather_data` jako `None`.
 2. Sprawdzenie, czy metoda żądania to POST:
-    - Pobranie nazwy miasta z danych POST.
-    - Wywołanie funkcji `get_weather` w celu pobrania danych pogodowych.
+   - Pobranie nazwy miasta z danych POST.
+   - Wywołanie funkcji `get_weather` w celu pobrania danych pogodowych.
 3. Renderowanie szablonu HTML `index.html` z danymi pogodowymi, jeśli są dostępne.
 
-#### Kod:
-
+**Kod funkcji:**
 ```python
 def weather_view(request):
     weather_data = None
@@ -93,21 +88,21 @@ def weather_view(request):
     return render(request, 'index.html', {'weather_data': weather_data})
 ```
 
-## Wnioski
+### Wnioski
 
-Kod opisany w tym raporcie umożliwia pobieranie i wyświetlanie danych pogodowych dla określonego miasta za pomocą API OpenWeatherMap. Funkcja `get_weather` zajmuje się komunikacją z API i przetwarzaniem odpowiedzi, natomiast widok `weather_view` obsługuje żądania HTTP i renderowanie odpowiednich danych w szablonie HTML.
+Kod zaprezentowany w powyższych fragmentach umożliwia pobieranie oraz wyświetlanie danych pogodowych dla wybranego miasta za pomocą API OpenWeatherMap. Funkcja `get_weather` odpowiada za komunikację z API oraz przetwarzanie odpowiedzi, natomiast widok `weather_view` obsługuje żądania HTTP oraz renderowanie odpowiednich danych w szablonie HTML.
 
-# Raport z implementacji szablonu HTML do wyświetlania pogody w Django
+---
 
-## Wprowadzenie
+## Sprawozdanie z implementacji szablonu HTML do wyświetlania pogody w Django
 
-Ten raport opisuje szczegóły implementacji szablonu HTML w Django, który jest używany do wyświetlania danych pogodowych dla określonego miasta. Szablon ten wykorzystuje dane uzyskane z API OpenWeatherMap, aby pokazać użytkownikowi aktualną pogodę.
+### Wprowadzenie
 
-## Szczegóły Implementacji
+Celem tego sprawozdania jest opisanie szczegółów implementacji szablonu HTML w Django, który jest używany do wyświetlania danych pogodowych dla wybranego miasta. Szablon ten wykorzystuje dane uzyskane z API OpenWeatherMap, aby przedstawić użytkownikowi aktualną pogodę.
 
-### Nagłówki HTML i Ładowanie Zasobów
+### Szczegóły Implementacji
 
-#### Ładowanie plików statycznych i czcionek
+#### Nagłówki HTML i Ładowanie Zasobów
 
 ```html
 {% load static %}
@@ -131,29 +126,29 @@ Ten raport opisuje szczegóły implementacji szablonu HTML w Django, który jest
 - `<link rel="stylesheet" href="{% static 'styl.css' %}">`: Wstawia plik CSS z katalogu `static`.
 - `<link href='http://fonts.googleapis.com/css?family=Alata&subset=latin,latin-ext' rel='stylesheet' type='text/css'>`: Ładuje czcionkę Google Fonts.
 
-### Treść Strony i Formularz
+#### Treść Strony i Formularz
 
-#### Struktura i formularz do wpisywania miasta
+**Struktura i formularz do wpisywania miasta**
 
 ```html
-    <div class="container">
-        <h1>Sprawdź pogodę</h1>
-        <form method="post" id="formularz">
-            {% csrf_token %}
-            <div class="input-box">
-                <input type="text" id="city" name="city" placeholder="Wpisz miasto..."><br><br>
-                <button type="submit">Sprawdź  <img src="{% static 'lupa.svg' %}" height="18" alt="Lupa"></button>
-            </div>
-        </form>
-        <script>
-            window.onload = function() {
-              document.getElementById('formularz').reset();
-            };
-        </script>
-        <div id="tabela">
-            <h2 id="wmiasto"></h2>
-            <h4 id="data"></h4>
-            <h4 id="godzina"></h4>
+<div class="container">
+    <h1>Sprawdź pogodę</h1>
+    <form method="post" id="formularz">
+        {% csrf_token %}
+        <div class="input-box">
+            <input type="text" id="city" name="city" placeholder="Wpisz miasto..."><br><br>
+            <button type="submit">Sprawdź  <img src="{% static 'lupa.svg' %}" height="18" alt="Lupa"></button>
+        </div>
+    </form>
+    <script>
+        window.onload = function() {
+            document.getElementById('formularz').reset();
+        };
+    </script>
+    <div id="tabela">
+        <h2 id="wmiasto"></h2>
+        <h4 id="data"></h4>
+        <h4 id="godzina"></h4>
 ```
 
 - `<div class="container">`: Rozpoczyna kontener strony.
@@ -165,9 +160,9 @@ Ten raport opisuje szczegóły implementacji szablonu HTML w Django, który jest
 - `<button type="submit">Sprawdź  <img src="{% static 'lupa.svg' %}" height="18" alt="Lupa"></button>`: Przycisk do wysyłania formularza z ikoną lupy.
 - `<script> window.onload = function() { document.getElementById('formularz').reset(); };</script>`: Skrypt JavaScript resetujący formularz po załadowaniu strony.
 
-### Wyświetlanie Danych Pogodowych
+#### Wyświetlanie Danych Pogodowych
 
-#### Sekcja do wyświetlania wyników
+**Sekcja do wyświetlania wyników**
 
 ```html
         <div id="tabela">
@@ -181,7 +176,9 @@ Ten raport opisuje szczegóły implementacji szablonu HTML w Django, który jest
                 <p><strong>Odczuwalna:</strong> {{ weather_data.feels_like }}°C</p>
                 <p><strong>Wilgotność:</strong> {{ weather_data.humidity }}%</p>
                 <p><strong>Prędkość wiatru:</strong> {{ weather_data.wind_speed }} m/s</p>
-            {% elif weather_data is none %}
+            {% elif
+
+ weather_data is none %}
                 <p>Nie można pobrać danych, spróbuj ponownie.</p>
             {% endif %}
         </div>
@@ -195,15 +192,15 @@ Ten raport opisuje szczegóły implementacji szablonu HTML w Django, który jest
 - `<h4 id="data"></h4>`: Nagłówek do wyświetlania daty.
 - `<h4 id="godzina"></h4>`: Nagłówek do wyświetlania godziny.
 - `{% if weather_data %}`: Warunek sprawdzający, czy dane pogodowe są dostępne.
-    - `<h2>Aktualna pogoda w {{ weather_data.city }}:</h2>`: Nagłówek wyświetlający nazwę miasta.
-    - `<p><strong>Opis:</strong> {{ weather_data.description }}</p>`: Wyświetlanie opisu pogody.
-    - `<p><strong>Temperatura:</strong> {{ weather_data.temperature }}°C</p>`: Wyświetlanie temperatury.
-    - `<p><strong>Odczuwalna:</strong> {{ weather_data.feels_like }}°C</p>`: Wyświetlanie odczuwalnej temperatury.
-    - `<p><strong>Wilgotność:</strong> {{ weather_data.humidity }}%</p>`: Wyświetlanie wilgotności.
-    - `<p><strong>Prędkość wiatru:</strong> {{ weather_data.wind_speed }} m/s</p>`: Wyświetlanie prędkości wiatru.
+- `<h2>Aktualna pogoda w {{ weather_data.city }}:</h2>`: Nagłówek wyświetlający nazwę miasta.
+- `<p><strong>Opis:</strong> {{ weather_data.description }}</p>`: Wyświetlanie opisu pogody.
+- `<p><strong>Temperatura:</strong> {{ weather_data.temperature }}°C</p>`: Wyświetlanie temperatury.
+- `<p><strong>Odczuwalna:</strong> {{ weather_data.feels_like }}°C</p>`: Wyświetlanie odczuwalnej temperatury.
+- `<p><strong>Wilgotność:</strong> {{ weather_data.humidity }}%</p>`: Wyświetlanie wilgotności.
+- `<p><strong>Prędkość wiatru:</strong> {{ weather_data.wind_speed }} m/s</p>`: Wyświetlanie prędkości wiatru.
 - `{% elif weather_data is none %}`: Warunek sprawdzający, czy nie udało się pobrać danych pogodowych.
-    - `<p>Nie można pobrać danych, spróbuj ponownie.</p>`: Komunikat o błędzie w przypadku niepowodzenia pobrania danych.
+- `<p>Nie można pobrać danych, spróbuj ponownie.</p>`: Komunikat o błędzie w przypadku niepowodzenia pobrania danych.
 
-## Wnioski
+### Wnioski
 
-Szablon HTML opisany w tym raporcie umożliwia użytkownikowi wpisanie nazwy miasta i wyświetla dane pogodowe pobrane z API OpenWeatherMap. Szablon obsługuje również zabezpieczenia przed atakami CSRF i resetuje formularz po załadowaniu strony. Sekcja warunkowa pozwala na wyświetlanie odpowiednich komunikatów w zależności od dostępności danych pogodowych.
+Szablon HTML opisany w tym sprawozdaniu umożliwia użytkownikowi wpisanie nazwy miasta i wyświetla dane pogodowe pobrane z API OpenWeatherMap. Szablon obsługuje również zabezpieczenia przed atakami CSRF oraz resetuje formularz po załadowaniu strony. Sekcja warunkowa pozwala na wyświetlanie odpowiednich komunikatów w zależności od dostępności danych pogodowych.
